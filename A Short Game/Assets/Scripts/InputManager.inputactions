@@ -1,0 +1,74 @@
+{
+    "name": "InputManager",
+    "maps": [
+        {
+            "name": "PlayerInput",
+            "id": "caae1f1b-b692-40b5-817b-f8458469a569",
+            "actions": [
+                {
+                    "name": "Aim",
+                    "type": "Value",
+                    "id": "89a450aa-e529-464d-b73a-923c13d70595",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Click",
+                    "type": "Button",
+                    "id": "313f5fe9-7fd5-4756-be2a-803a51fcdced",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Release",
+                    "type": "Button",
+                    "id": "f4ba12eb-fc7d-485a-9a75-792f20d084b9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "33f4cfb0-897d-4705-985b-a816ba1a8877",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Aim",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2f24e42e-9ed0-40fd-a20e-748a2f871275",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Click",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b6b44eab-e64e-4d8f-8e89-1fa8ce3fd6fd",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Release",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
