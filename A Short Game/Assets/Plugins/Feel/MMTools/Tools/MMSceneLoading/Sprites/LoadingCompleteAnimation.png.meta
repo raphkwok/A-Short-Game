@@ -36,7 +36,7 @@ TextureImporter:
       213: 21300020
     second: LoadingCompleteAnimation_10
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 10
   mipmaps:
     mipMapMode: 0
     enableMipMap: 1
@@ -56,8 +56,6 @@ TextureImporter:
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
-  vTOnly: 0
-  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -66,9 +64,9 @@ TextureImporter:
   maxTextureSize: 1024
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: -1
     aniso: 16
-    mipBias: 0
+    mipBias: -100
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -89,13 +87,9 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
-  flipbookRows: 1
-  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
-  ignorePngGamma: 0
-  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -353,18 +347,6 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable:
-      LoadingCompleteAnimation_2: 21300004
-      LoadingCompleteAnimation_10: 21300020
-      LoadingCompleteAnimation_1: 21300002
-      LoadingCompleteAnimation_0: 21300000
-      LoadingCompleteAnimation_3: 21300006
-      LoadingCompleteAnimation_5: 21300010
-      LoadingCompleteAnimation_6: 21300012
-      LoadingCompleteAnimation_4: 21300008
-      LoadingCompleteAnimation_9: 21300018
-      LoadingCompleteAnimation_8: 21300016
-      LoadingCompleteAnimation_7: 21300014
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
