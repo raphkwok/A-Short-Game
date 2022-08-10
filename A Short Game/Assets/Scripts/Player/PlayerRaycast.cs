@@ -11,14 +11,12 @@ public class PlayerRaycast : MonoBehaviour
     [SerializeField] private float width;
     [SerializeField] private float length;
     [SerializeField] private float radius;
-    [SerializeField] private LayerMask playerLayer;
     private Interactables currentTarget;
-    private Camera mainCamera;
+
 
 
     private void Awake()
     {
-        mainCamera = Camera.main;
         distance = (transform.localPosition + transform.forward * range);
     }
 
@@ -46,54 +44,44 @@ public class PlayerRaycast : MonoBehaviour
     {
         //RaycastHit hit;
 
-        Collider[] hit = Physics.OverlapSphere(transform.position + transform.forward * range, radius, playerLayer);
+        Collider[] hit = Physics.OverlapSphere(transform.position + transform.forward * range, radius);
 
+        Interactables interactable = null;
 
 
         if (hit.Length > 0)
         {
-            //print("hit");
 
-            //var colliderObject = hit.
+            foreach (var collider in hit)
+            {
+                Interactables temp;
+                temp = collider.GetComponent<Interactables>();
 
-            GameObject colliderObject = hit[0].gameObject;
-
-            Interactables interactable = colliderObject.GetComponent<Interactables>();
-
-  
+                if (temp != null)
+                {
+                    interactable = temp;
+                }
+            }
 
             if (interactable != null)
             {
-                if (Vector3.Distance(transform.position, colliderObject.transform.position) <= interactable.MaxRange)
+                if (interactable == currentTarget)
                 {
-                    if (interactable == currentTarget)
-                    {
-                        return;
-                    }
-                    else if (currentTarget != null)
-                    {
-                        currentTarget.OnEndHover();
-                        currentTarget = interactable;
-                        currentTarget.OnStartHover();
-                        return;
-                    }
-                    else
-                    {
-                        currentTarget = interactable;
-                        currentTarget.OnStartHover();
-                        return;
-                    }
+                    return;
+                }
+                else if (currentTarget != null)
+                {
+                    currentTarget.OnEndHover();
+                    currentTarget = interactable;
+                    currentTarget.OnStartHover();
+                    return;
                 }
                 else
                 {
-                    if (currentTarget != null)
-                    {
-                        currentTarget.OnEndHover();
-                        currentTarget = null;
-                        return;
-                    }
+                    currentTarget = interactable;
+                    currentTarget.OnStartHover();
+                    return;
                 }
-
             }
             else
             {

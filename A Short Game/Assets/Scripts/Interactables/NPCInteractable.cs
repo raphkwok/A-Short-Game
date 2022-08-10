@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class NPCInteractable : MonoBehaviour, Interactables
 {
-    public float MaxRange { get { return maxRange; } }
-
-    [SerializeField] private float maxRange = 2f;
 
     public void OnStartHover()
     {
