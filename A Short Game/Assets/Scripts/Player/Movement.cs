@@ -12,9 +12,9 @@ public class Movement : MonoBehaviour
 
     [SerializeField] private float moveSpeed;
     private Vector2 currentVelocity;
-    private Vector2 moveInput;
+    public Vector2 moveInput;
     private Vector2 smoothInputVelocity;
-    private Vector3 velocity;
+    public Vector3 velocity;
     [SerializeField] private float accelDeccel;
     [SerializeField] private float jumpSpeed;
 
@@ -66,7 +66,7 @@ public class Movement : MonoBehaviour
             velocity.y = 0;
         }
 
-        if(grounded && jumping)
+        if (grounded && jumping)
         {
             velocity.y += jumpSpeed;
             jumping = false;
@@ -74,11 +74,11 @@ public class Movement : MonoBehaviour
 
         controller.Move(velocity * Time.deltaTime * moveSpeed);
 
-        
+
     }
 
     void VerticalMove()
     {
-        
+
     }
 }

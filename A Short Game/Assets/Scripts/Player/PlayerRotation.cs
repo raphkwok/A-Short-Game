@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public class PlayerRotation : MonoBehaviour
 {
     private Vector2 mouseInput;
+    public float sens;
 
     public void OnLook(InputValue value)
     {
@@ -31,6 +32,6 @@ public class PlayerRotation : MonoBehaviour
 
     void CamRotation()
     {
-        transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y + mouseInput.x, transform.eulerAngles.z);
+        transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y + mouseInput.x * sens, transform.eulerAngles.z);
     }
 }
