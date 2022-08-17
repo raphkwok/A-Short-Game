@@ -15,6 +15,7 @@ public class FishingCamControl : MonoBehaviour
     private void Awake()
     {
         cam.Priority = 20;
-        cam.m_LookAt = GameObject.Find("Fishing Player(Clone)").GetComponent<Transform>();
+        //cam.m_LookAt = GameObject.Find("Fishing Player(Clone)").GetComponent<Transform>();
+        cam.m_LookAt = GameObject.Find("Fishing Player(Clone)").GetComponent<Transform>().GetChild(2).GetComponent<Transform>();
     }
 }
