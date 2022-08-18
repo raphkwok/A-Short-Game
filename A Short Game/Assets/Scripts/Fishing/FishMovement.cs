@@ -8,32 +8,51 @@ public class FishMovement : MonoBehaviour
     [SerializeField] float minDistance;
     [SerializeField] float moveSpeed;
 
+    private Vector3 lastLocation;
     private Vector3 targetLocation;
+    private bool pickingNewLocation = false;
+    private bool started = false;
 
     private BoxCollider bounds;
 
     public void ReceiveValues(BoxCollider areaBounds)
     {
         bounds = areaBounds;
-        ChangeDirection();
+        StartCoroutine(ChangeDirection());
     }
 
     private void Update()
     {
-        Move();
+        if (started == true)
+        {
+            Move();
+            CheckDistance();
+        }
+
     }
 
     void Move()
     {
         transform.position = Vector3.Lerp(transform.position, targetLocation, moveSpeed * Time.deltaTime);
-        if (transform.position == targetLocation)
+        if (Vector3.Distance(transform.position, targetLocation) <= 1 && pickingNewLocation == false)
         {
-            ChangeDirection();
+            StartCoroutine(ChangeDirection());
+            pickingNewLocation = true;
         }
     }
-
-    void ChangeDirection()
+    void CheckDistance()
     {
+        if (Vector3.Distance(transform.position, lastLocation) > 1)
+        {
+            pickingNewLocation = false;
+        }
+    }
+    //coroutines def fucking with the movement and location selection but like it looks fine yk
+
+    IEnumerator ChangeDirection()
+    {
+        print("start");
+        yield return new WaitForSeconds(Random.Range(0, 2));
         Vector3 boxPoint = GetRandomPointInsideCollider(bounds);
 
         Vector3 vector = Vector3.Normalize(boxPoint - transform.position);
@@ -52,9 +71,11 @@ public class FishMovement : MonoBehaviour
         {
             distance = Random.Range(minDistance, Vector3.Distance(boxPoint, transform.position));
         }
-
+        lastLocation = targetLocation;
         targetLocation = transform.position + vector * distance;
-
+        print(targetLocation);
+        started = true;
+        print("end");
     }
 
 

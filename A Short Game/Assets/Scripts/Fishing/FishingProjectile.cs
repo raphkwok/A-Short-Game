@@ -7,6 +7,7 @@ public class FishingProjectile : MonoBehaviour
     [SerializeField] private Rigidbody rb;
     [SerializeField] private float floatStrength = 0.01f;
     [SerializeField] private float floatSpeed = 1f;
+    [SerializeField] private float fishingLineWidth = 1;
     [SerializeField] private float fishingLineDepth = Mathf.Infinity;
     [SerializeField] private LayerMask detectLayers;
     private float launchAngle;
@@ -47,14 +48,21 @@ public class FishingProjectile : MonoBehaviour
         }
 
         CheckFish();
-        print(currentFish);
+        //print(currentFish);
     }
 
     void CheckFish()
     {
         RaycastHit hit;
 
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, fishingLineDepth, detectLayers))
+        /**
+        if (Physics.BoxCast(transform.position + Vector3.down * fishingLineDepth / 2, new Vector3(fishingLineWidth, fishingLineDepth, fishingLineWidth), - transform.up, out hit, transform.rotation, detectLayers))
+        {
+            Physics.Raycast(transform.position, Vector3.down, out hit, fishingLineDepth, detectLayers)
+        }
+        **/
+
+        if (Physics.BoxCast(transform.position + Vector3.down * fishingLineDepth / 2, new Vector3(fishingLineWidth, fishingLineDepth, fishingLineWidth), -transform.up, out hit, transform.rotation, detectLayers))
         {
             if (currentFish = hit.transform.gameObject)
             {
@@ -85,5 +93,10 @@ public class FishingProjectile : MonoBehaviour
             hitWater = true;
         }
 
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireCube(transform.position + Vector3.down * fishingLineDepth / 2, new Vector3(fishingLineWidth, fishingLineDepth, fishingLineWidth));
     }
 }
