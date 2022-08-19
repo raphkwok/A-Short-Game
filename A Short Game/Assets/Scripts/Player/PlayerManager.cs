@@ -133,7 +133,6 @@ public class PlayerManager : MonoBehaviour
                     directionAngle = 135f * Mathf.Sign(input.x);
                 }
 
-                print(directionAngle);
                 modelRot = transform.rotation.eulerAngles.y + directionAngle;
                 playerRot.eulerAngles = new Vector3(transform.eulerAngles.x, Mathf.LerpAngle(playerRot.eulerAngles.y, modelRot, rotationSpeed), transform.eulerAngles.z);
                 // playerRot.rotation = Quaternion.Lerp(playerRot.rotation, transform.rotation, rotationSpeed);

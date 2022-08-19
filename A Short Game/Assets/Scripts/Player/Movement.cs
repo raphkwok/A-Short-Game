@@ -28,6 +28,7 @@ public class Movement : MonoBehaviour
     public void OnMove(InputValue value)
     {
         moveInput = value.Get<Vector2>();
+
     }
 
     public void OnJump(InputValue value)
