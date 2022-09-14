@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TreeSway : MonoBehaviour
+public class DuckController : MonoBehaviour
 {
-    [Header("State Settings")]
+    // [Header("State Settings")] 
     public enum State { Swimming, Walking };
     public State state;
 
@@ -41,7 +41,7 @@ public class TreeSway : MonoBehaviour
     }
 
     ////////// Coroutines //////////
-    IEnumerator ChangeRotation()
+    IEnumerator RotationTimer()
     {
         yield return null;
     }

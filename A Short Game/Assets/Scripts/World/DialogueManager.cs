@@ -6,6 +6,8 @@ using Febucci.UI;
 
 public class DialogueManager : MonoBehaviour
 {
+    public static DialogueManager dialogueManager;
+
     bool textComplete;
     public int dialogueIndex;
     public Transform dialogue;
@@ -15,7 +17,7 @@ public class DialogueManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        dialogueManager = this;
     }
 
     // Update is called once per frame
@@ -27,10 +29,14 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    void StartDialogue()
+    public void StartDialogue()
     {
         dialogueIndex = 0;
         textComplete = false;
+        dialogueActive = true;
+
+
+        dialogue.GetChild(dialogueIndex).gameObject.SetActive(true);
     }
 
     void Next()
@@ -58,10 +64,14 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
+    public void CompletedText()
+    {
+        textComplete = true;
+    }
     void EndDialogue()
     {
         dialogueActive = false;
         dialogue.GetChild(dialogueIndex - 1).gameObject.SetActive(false);
-        dialogue.gameObject.SetActive(false);
+        // dialogue.gameObject.SetActive(false);
     }
 }

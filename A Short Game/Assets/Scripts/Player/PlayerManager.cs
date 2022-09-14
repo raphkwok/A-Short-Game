@@ -7,6 +7,7 @@ using Cinemachine;
 public class PlayerManager : MonoBehaviour
 {
     public enum State { GameStart, Active, Cutscene }
+    public static PlayerManager player;
 
     [Header("References")]
     public Animator pAnim;
@@ -42,6 +43,8 @@ public class PlayerManager : MonoBehaviour
         cc = GetComponent<CharacterController>();
         m = GetComponent<Movement>();
         anim = GetComponent<Animator>();
+
+        player = this;
     }
     // Start is called before the first frame update
     void Start()
