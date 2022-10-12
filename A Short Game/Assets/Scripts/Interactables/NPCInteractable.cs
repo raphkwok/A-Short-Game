@@ -7,6 +7,7 @@ public class NPCInteractable : MonoBehaviour, Interactables
 {
 
     public bool hovering;
+    public Transform dialogue;
     public void OnStartHover()
     {
         print("start");
@@ -16,6 +17,7 @@ public class NPCInteractable : MonoBehaviour, Interactables
     public void OnInteract()
     {
         print("interact");
+        DialogueManager.dialogueManager.dialogue = dialogue;
         DialogueManager.dialogueManager.StartDialogue();
     }
 

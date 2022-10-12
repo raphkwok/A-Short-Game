@@ -45,6 +45,9 @@ ModelImporter:
   - first:
       74: 3762520341859899261
     second: Fish
+  - first:
+      74: 3099915791805858041
+    second: Chair|Sitting
   externalObjects:
   - first:
       type: UnityEngine:Material
@@ -148,11 +151,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Walk
-      takeName: metarig|Walk
+      name: Chair|Sitting
+      takeName: Chair|Sitting
       internalID: 0
       firstFrame: 0
-      lastFrame: 25
+      lastFrame: 1
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -263,7 +266,7 @@ ModelImporter:
       maskType: 3
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
-    isReadable: 0
+    isReadable: 1
   meshes:
     lODScreenPercentages: []
     globalScale: 1

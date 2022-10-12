@@ -98,7 +98,7 @@ public class PlayerManager : MonoBehaviour
         m.enabled = true;
         cc.enabled = true;
 
-        animCamera.Priority = 0;
+        animCamera.Priority = 1;
         NextState();
     }
 

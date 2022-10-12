@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Febucci.UI;
+using Cinemachine;
+
 
 public class DialogueManager : MonoBehaviour
 {
     public static DialogueManager dialogueManager;
 
-    bool textComplete;
+    public bool textComplete;
+    public bool textDisappeared;
     public int dialogueIndex;
     public Transform dialogue;
+    public Transform dialogueText;
 
     public bool dialogueActive;
 
@@ -18,6 +22,7 @@ public class DialogueManager : MonoBehaviour
     void Start()
     {
         dialogueManager = this;
+        dialogueIndex = 100;
     }
 
     // Update is called once per frame
@@ -31,36 +36,63 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue()
     {
+        if (dialogueActive) return;
+        if (dialogueIndex != 0) StartCoroutine(StartSequence());
+
+        // Reset text stats
         dialogueIndex = 0;
+    }
+
+    IEnumerator StartSequence()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        // Open Dialogue box
+        dialogue.GetChild(1).gameObject.SetActive(true);
+        dialogue.GetChild(1).GetComponent<Animator>().Play("Dialogue Box Open");
+        yield return new WaitForSeconds(0.5f);
+        dialogue.gameObject.SetActive(true);
+
+        // Enable camera
+        dialogue.GetChild(0).GetComponent<CinemachineVirtualCamera>().Priority = 100;
+
+        // Get reference to dialogue text and enable
+        dialogueText = dialogue.GetComponent<Dialogue>().TextObject;
+        dialogueText.GetChild(dialogueIndex).gameObject.SetActive(true);
+
+        // Start dialogue
         textComplete = false;
         dialogueActive = true;
 
-
-        dialogue.GetChild(dialogueIndex).gameObject.SetActive(true);
     }
 
     void Next()
     {
-        if (textComplete)
+        if (textComplete && !textDisappeared)
+        {
+            // Disappear text
+            dialogueText.GetChild(dialogueIndex).GetComponent<TextAnimatorPlayer>().StartDisappearingText();
+        }
+        else if (textComplete && textDisappeared)
         {
             dialogueIndex++;
             textComplete = false;
+            textDisappeared = false;
 
-            if (dialogueIndex >= dialogue.childCount)
+            if (dialogueIndex >= dialogueText.childCount)
             {
                 EndDialogue();
             }
             else
             {
-                dialogue.GetChild(dialogueIndex).gameObject.SetActive(true);
-                dialogue.GetChild(dialogueIndex - 1).gameObject.SetActive(false);
+                dialogueText.GetChild(dialogueIndex).gameObject.SetActive(true);
+                dialogueText.GetChild(dialogueIndex - 1).gameObject.SetActive(false);
             }
         }
         else
         {
             textComplete = true;
 
-            dialogue.GetChild(dialogueIndex).GetComponent<TextAnimatorPlayer>().SkipTypewriter();
+            dialogueText.GetChild(dialogueIndex).GetComponent<TextAnimatorPlayer>().SkipTypewriter();
         }
     }
 
@@ -68,10 +100,34 @@ public class DialogueManager : MonoBehaviour
     {
         textComplete = true;
     }
+
+    public void DisappearedText()
+    {
+        textDisappeared = true;
+        Next();
+    }
     void EndDialogue()
     {
+
+        Cursor.lockState = CursorLockMode.Confined;
+        // Set variables
         dialogueActive = false;
-        dialogue.GetChild(dialogueIndex - 1).gameObject.SetActive(false);
+
+        // Disable camera
+        dialogue.GetChild(0).GetComponent<CinemachineVirtualCamera>().Priority = 0;
+
+        // Diable text
+        dialogueText.GetChild(dialogueIndex - 1).gameObject.SetActive(false);
+
+
+        dialogue.GetChild(1).GetComponent<Animator>().Play("Dialogue Box Close");
         // dialogue.gameObject.SetActive(false);
+        StartCoroutine(EndCycle());
+    }
+
+    IEnumerator EndCycle()
+    {
+        yield return new WaitForSeconds(0.5f);
+        dialogue.gameObject.SetActive(false);
     }
 }

@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class DialogueTracker : MonoBehaviour
 {
-    public Transform tracker;
-    public Vector2 offset;
+    public bool flip;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,15 +16,16 @@ public class DialogueTracker : MonoBehaviour
     {
         // Vector2 sp = Camera.main.WorldToScreenPoint(tracker.position);
 
-        transform.position = tracker.position;
+        transform.LookAt(Camera.main.transform);
+        if (!flip) transform.Rotate(0, 180, 0);
     }
-    void OnEnable()
-    {
-        // this is here because there can be a single frame where the position is incorrect
-        // when the object (or its parent) is activated.
-        if (gameObject.activeInHierarchy)
-        {
-            Update();
-        }
-    }
+    // void OnEnable()
+    // {
+    //     // this is here because there can be a single frame where the position is incorrect
+    //     // when the object (or its parent) is activated.
+    //     if (gameObject.activeInHierarchy)
+    //     {
+    //         Update();
+    //     }
+    // }
 }

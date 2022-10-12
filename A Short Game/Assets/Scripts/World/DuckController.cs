@@ -16,6 +16,7 @@ public class DuckController : MonoBehaviour
     [Header("Rotation Settings")]
     public float maxRotation;
     public float angle;
+    public float randomRotationTime;
 
     [Header("Sensory Settings")]
     public float duckRadius;
@@ -31,7 +32,7 @@ public class DuckController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        // print(Physics.Raycast(transform.position, transform.forward, wallDetectionDist));
     }
 
     ////////// Functions //////////
@@ -61,23 +62,28 @@ public class DuckController : MonoBehaviour
         StartCoroutine((IEnumerator)info.Invoke(this, null)); // Call the next state
     }
 
-    IEnumerator Swimming()
+    IEnumerator SwimmingState()
     {
+        float timer = 0;
         while (state == State.Swimming)
         {
             // Move forwards in direction d
+            transform.Translate(Vector3.forward * swimSpeed * Time.deltaTime);
 
             // Rotate towards direction
-            angle = Mathf.LerpAngle(angle, transform.eulerAngles.y, rotationSpeed * Time.deltaTime);
+
+            transform.eulerAngles = new Vector3(0, Mathf.LerpAngle(transform.eulerAngles.y, angle, rotationSpeed * Time.deltaTime), 0);
 
             // Check for other ducks, if behind, slow down
 
-            // Check for wall in front, if too close, change direction
-            if (Physics.Raycast(transform.position, transform.forward, wallDetectionDist))
+            // Check for wall in front, if too close, change direction, also change direction if timer is up
+            if (Physics.Raycast(transform.position, transform.forward, wallDetectionDist) || timer >= randomRotationTime)
             {
                 ChangeRotation();
+                timer = 0;
             }
 
+            timer += Time.deltaTime;
             // Check for walls around, if too close, change direction
             yield return null;
         }
@@ -85,6 +91,11 @@ public class DuckController : MonoBehaviour
 
     }
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(transform.position, transform.position + transform.forward * wallDetectionDist);
+    }
     IEnumerator Walking()
     {
         yield return null;
