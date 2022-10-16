@@ -1,19 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class Dialogue : MonoBehaviour
 {
-    public Transform TextObject;
-    // Start is called before the first frame update
-    void Start()
-    {
+    public bool isChoice;
 
-    }
+    public Animator[] choices;
+    public TMP_Text text;
 
-    // Update is called once per frame
-    void Update()
-    {
+    public Dialogue[] nextOptions;
 
-    }
 }

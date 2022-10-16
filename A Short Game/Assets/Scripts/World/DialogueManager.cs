@@ -10,6 +10,7 @@ public class DialogueManager : MonoBehaviour
 {
     public static DialogueManager dialogueManager;
 
+    [Header("Dialogue Settings")]
     public bool textComplete;
     public bool textDisappeared;
     public int dialogueIndex;
@@ -56,7 +57,7 @@ public class DialogueManager : MonoBehaviour
         dialogue.GetChild(0).GetComponent<CinemachineVirtualCamera>().Priority = 100;
 
         // Get reference to dialogue text and enable
-        dialogueText = dialogue.GetComponent<Dialogue>().TextObject;
+        dialogueText = dialogue.GetComponent<DialogueObject>().TextObject;
         dialogueText.GetChild(dialogueIndex).gameObject.SetActive(true);
 
         // Start dialogue
