@@ -6,7 +6,7 @@ using Cinemachine;
 
 public class PlayerManager : MonoBehaviour
 {
-    public enum State { GameStart, Active, Cutscene }
+    public enum State { GameStart, Active, Dialogue }
     public static PlayerManager player;
 
     [Header("References")]
@@ -19,7 +19,7 @@ public class PlayerManager : MonoBehaviour
     private CharacterController cc;
     private Movement m;
 
-
+    public Transform dialoguePosition;
     public Transform playerRot;
 
     // Camera
@@ -65,6 +65,24 @@ public class PlayerManager : MonoBehaviour
 
         input = m.moveInput;
         playerRot.transform.position = transform.position;
+
+        // if (state == State.Dialogue)
+        // {
+        //     cc.enabled = false;
+        //     pr.enabled = false;
+        //     prot.enabled = false;
+        //     m.enabled = false;
+        // }
+        // else
+
+        // {
+        //     cc.enabled = true;
+        //     pr.enabled = true;
+        //     prot.enabled = true;
+        //     m.enabled = true;
+        //     pAnim.enabled = true;
+        //     // anim.enabled = true;
+        // }
     }
 
     //////////////// States ///////////////
@@ -104,6 +122,8 @@ public class PlayerManager : MonoBehaviour
 
     IEnumerator ActiveState()
     {
+        print("Active");
+        if (!pAnim.enabled) pAnim.enabled = true;
         while (state == State.Active)
         {
             pAnim.SetBool("isMoving", input != Vector2.zero);
@@ -146,7 +166,29 @@ public class PlayerManager : MonoBehaviour
 
             yield return null;
         }
+        NextState();
+    }
 
+    IEnumerator DialogueState()
+    {
+        cc.enabled = false;
+        pr.enabled = false;
+        prot.enabled = false;
 
+        m.OnDialogue();
+        m.enabled = false;
+        while (state == State.Dialogue)
+        {
+            yield return null;
+            transform.position = dialoguePosition.position;
+            transform.rotation = dialoguePosition.rotation;
+        }
+        cc.enabled = true;
+        pr.enabled = true;
+        prot.enabled = true;
+        m.enabled = true;
+        pAnim.enabled = true;
+        cc.SimpleMove(Vector3.zero);
+        NextState();
     }
 }

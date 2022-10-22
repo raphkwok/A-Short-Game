@@ -36,6 +36,11 @@ public class Movement : MonoBehaviour
         jumping = true;
     }
 
+    public void OnDialogue()
+    {
+        velocity = Vector3.zero;
+        currentVelocity = Vector2.zero;
+    }
 
     private void Update()
     {
@@ -57,9 +62,10 @@ public class Movement : MonoBehaviour
 
     void Move()
     {
-        velocity = new Vector3(currentVelocity.x, velocity.y, currentVelocity.y);
+        // velocity = new Vector3(currentVelocity.x, velocity.y, currentVelocity.y);
         velocity = (currentVelocity.x * transform.right + velocity.y * transform.up + currentVelocity.y * transform.forward);
 
+        // Debug.Log(velocity);
         velocity.y -= gravity * Time.deltaTime;
 
         if (grounded && !jumping)

@@ -9,8 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: roundedSquare_Material
   m_Shader: {fileID: 4800000, guid: 43304dd54d0154650926114f512807bb, type: 3}
-  m_ShaderKeywords: ETC1_EXTERNAL_ALPHA PIXELSNAP_ON _BLB_ON _BRB_ON _BRC_ON _BR_ON
-    _EMISSION _INVERT_ON _TLB_ON _TRB_ON _TRC_ON _TR_ON
+  m_ShaderKeywords: ETC1_EXTERNAL_ALPHA PIXELSNAP_ON _BLB_ON _BL_ON _BRB_ON _BRC_ON
+    _BR_ON _EMISSION _INVERT_ON _TLB_ON _TRB_ON _TRC_ON _TR_ON
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -58,7 +58,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - PixelSnap: 1
-    - _BL: 0
+    - _BL: 1
     - _BLB: 1
     - _BLC: 1
     - _BR: 1
@@ -90,7 +90,7 @@ Material:
     - _ZWrite: 1
     - _swap: 0
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _scale: {r: 3, g: 0.75, b: 1, a: 1}
   m_BuildTextureStacks: []

@@ -15,9 +15,13 @@ public class DialogueManager : MonoBehaviour
     public bool textDisappeared;
     public int dialogueIndex;
     public Transform dialogue;
-    public Transform dialogueText;
+    public Dialogue dialogueText;
 
+    public Transform dialoguePosition;
     public bool dialogueActive;
+
+    [Header("Dialogue Choice Settings")]
+    public int dialogueChoice;
 
     // Start is called before the first frame update
     void Start()
@@ -42,6 +46,8 @@ public class DialogueManager : MonoBehaviour
 
         // Reset text stats
         dialogueIndex = 0;
+        PlayerManager.player.dialoguePosition = dialoguePosition;
+        PlayerManager.player.state = PlayerManager.State.Dialogue;
     }
 
     IEnumerator StartSequence()
@@ -57,8 +63,8 @@ public class DialogueManager : MonoBehaviour
         dialogue.GetChild(0).GetComponent<CinemachineVirtualCamera>().Priority = 100;
 
         // Get reference to dialogue text and enable
-        dialogueText = dialogue.GetComponent<DialogueObject>().TextObject;
-        dialogueText.GetChild(dialogueIndex).gameObject.SetActive(true);
+        dialogueText = dialogue.GetComponent<DialogueObject>().dialogue;
+        dialogueText.gameObject.SetActive(true);
 
         // Start dialogue
         textComplete = false;
@@ -66,37 +72,96 @@ public class DialogueManager : MonoBehaviour
 
     }
 
-    void Next()
+    public void Next()
     {
+        // Debug.Log("Next");
+        if (dialogueText.isChoice)
+        {
+            IsChoice();
+            return;
+        }
+
+        // If text is not a choice
         if (textComplete && !textDisappeared)
         {
             // Disappear text
-            dialogueText.GetChild(dialogueIndex).GetComponent<TextAnimatorPlayer>().StartDisappearingText();
+            dialogueText.GetComponent<TextAnimatorPlayer>().StartDisappearingText();
         }
         else if (textComplete && textDisappeared)
         {
-            dialogueIndex++;
             textComplete = false;
             textDisappeared = false;
 
-            if (dialogueIndex >= dialogueText.childCount)
+            if (dialogueText.nextOptions.Length == 0)
             {
                 EndDialogue();
             }
             else
             {
-                dialogueText.GetChild(dialogueIndex).gameObject.SetActive(true);
-                dialogueText.GetChild(dialogueIndex - 1).gameObject.SetActive(false);
+                dialogueText.gameObject.SetActive(false);
+                dialogueText = dialogueText.nextOptions[0];
+                dialogueText.gameObject.SetActive(true);
+
+                if (dialogueText.isChoice) IsChoice();
             }
         }
         else
         {
             textComplete = true;
 
-            dialogueText.GetChild(dialogueIndex).GetComponent<TextAnimatorPlayer>().SkipTypewriter();
+            dialogueText.GetComponent<TextAnimatorPlayer>().SkipTypewriter();
         }
     }
 
+    public void IsChoice()
+    {
+        if (!dialogueText.showing && !dialogueText.opened)
+        {
+            StartCoroutine(dialogueText.Show());
+            dialogueChoice = 0;
+        }
+        else if (dialogueText.showed && dialogueText.showing)
+        {
+            // print("yes");
+            // TODO use better key system
+            if (Keyboard.current[Key.W].wasPressedThisFrame || Keyboard.current[Key.S].wasPressedThisFrame)
+            {
+
+                print("w or s");
+                if (Keyboard.current[Key.W].wasPressedThisFrame)
+                {
+                    dialogueChoice++;
+                }
+                else
+                {
+                    dialogueChoice--;
+                }
+                dialogueChoice = (int)Mathf.Repeat(dialogueChoice, dialogueText.nextOptions.Length);
+            }
+            else if (Keyboard.current[Key.E].wasPressedThisFrame)
+            {
+                // print("e");
+                // Record text option
+                dialogueText.StartCoroutine(dialogueText.Hide());
+            }
+        }
+        else if (!dialogueText.showed && !dialogueText.showing)
+        {
+            dialogueText.opened = false;
+            textComplete = false;
+            textDisappeared = false;
+
+            if (dialogueText.nextOptions.Length == 0)
+            {
+                EndDialogue();
+            }
+            else
+            {
+                dialogueText = dialogueText.nextOptions[dialogueChoice];
+                dialogueText.gameObject.SetActive(true);
+            }
+        }
+    }
     public void CompletedText()
     {
         textComplete = true;
@@ -118,10 +183,12 @@ public class DialogueManager : MonoBehaviour
         dialogue.GetChild(0).GetComponent<CinemachineVirtualCamera>().Priority = 0;
 
         // Diable text
-        dialogueText.GetChild(dialogueIndex - 1).gameObject.SetActive(false);
+        dialogueText.gameObject.SetActive(false);
 
 
         dialogue.GetChild(1).GetComponent<Animator>().Play("Dialogue Box Close");
+
+        PlayerManager.player.state = PlayerManager.State.Active;
         // dialogue.gameObject.SetActive(false);
         StartCoroutine(EndCycle());
     }
