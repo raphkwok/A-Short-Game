@@ -33,7 +33,7 @@ public class DialogueManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.anyKeyDown && dialogueActive)
+        if (Keyboard.current.anyKey.wasPressedThisFrame && dialogueActive)
         {
             Next();
         }

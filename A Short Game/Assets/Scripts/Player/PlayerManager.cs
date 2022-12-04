@@ -103,10 +103,10 @@ public class PlayerManager : MonoBehaviour
     IEnumerator GameStartState()
     {
         state = State.Active;
-        pAnim.Play("Getting Up");
-        anim.Play("Getting Up");
+        // pAnim.Play("Getting Up");
+        // anim.Play("Getting Up");
 
-        GameObject.Find("Title").GetComponent<Animator>().Play("Title Out");
+        // GameObject.Find("Title").GetComponent<Animator>().Play("Title Out");
 
         yield return new WaitForSeconds(0.5f);
         anim.enabled = false;
